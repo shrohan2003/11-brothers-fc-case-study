@@ -43,7 +43,7 @@ The following screenshots show the real application running locally with seeded 
 
 ## Validation and current limits
 
-The reviewed source passed 12 business-policy tests, TypeScript checking, lint and a production build before local-preview configuration fixes. Local database migrations and player account creation were then exercised. Cloudinary uploads, payment verification, password-reset email, administrative flows and production persistence require further end-to-end validation.
+The reviewed source passed 12 business-policy tests, TypeScript checking, lint and a production build. The build also passed after the local-preview configuration fixes. Local database migrations and player account creation were then exercised. Cloudinary uploads, payment verification, password-reset email, administrative flows and production persistence require further end-to-end validation.
 
 The standalone authentication integration also needs further hardening before making production-security claims. This case study does not claim a security audit or complete production acceptance.
 
