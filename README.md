@@ -30,7 +30,37 @@ This project is written in TypeScript. Python is my main language across my wide
 
 ## How it works
 
-A browser request reaches a page or API handler. The server reads the session, checks the user's role and record access, and queries D1. Media workflows use a separate storage layer. Payment evidence is handled separately from public gallery images.
+### The main parts
+
+The React interface contains the public pages, player forms and administration screens. Vinext connects those pages to server route handlers running on Cloudflare Workers. The server uses D1 for structured records and Cloudinary for media. Drizzle describes the database structure, and SQL migrations apply database changes.
+
+```mermaid
+flowchart LR
+    A[React pages and forms] -->|Request| B[Server routes on Cloudflare Workers]
+    B --> C[Session and role checks]
+    C --> D[(Cloudflare D1)]
+    B --> E[Cloudinary media integration]
+    B -->|Page or API response| A
+```
+
+### A player registration request
+
+1. A player opens a match or event and submits a registration request.
+2. The server reads the login session and checks the rules for the requested operation.
+3. If the request is accepted, the application saves the registration in D1 and returns a result.
+4. The interface displays the result. Player and staff screens can request the stored registration information later.
+
+### Accounts and staff access
+
+The email/password flow uses salted PBKDF2 password hashes. Login sessions use cookies and database-backed session records. Staff responsibilities are represented by roles and scope, including club-wide, branch and match responsibilities. Server code checks the relevant access before protected operations. The standalone identity fallback needs the hardening described below; this description is not a claim that all authentication paths are production-secure.
+
+### Payments and media
+
+Payment handling includes submission of payment evidence and a separate staff-verification workflow. It is manual review, not an automatic card-payment gateway. Media is handled through Cloudinary integration, while the application stores the information needed to relate media to club content. Private payment evidence is handled separately from public gallery images.
+
+### My contribution
+
+I built this as an individual paid client project, including the interface, server workflows and database integration. The work gives me concrete examples of connecting forms to APIs, organizing relational records and applying role-based rules. Source inspection supports the listed features; the validation section distinguishes what was actually tested from what still needs acceptance testing.
 
 ## Screenshots
 
